@@ -1,0 +1,21 @@
+{
+	"name": "wells5609/missing-math",
+	"type": "library",
+	"description": "PHP missing math functions.",
+	"keywords": ["Math", "Statistics", "Finance"],
+	"homepage": "https://github.com/wells5609/Missing-Math",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "wells",
+			"email": "wellspeterson@live.com"
+		}
+	],
+	"require": {
+		"php": ">=5.2"
+	},
+	"autoload": {
+		“files": ["functions.php"]
+	},
+	"minimum-stability": "dev"
+}
