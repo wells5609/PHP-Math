@@ -4,10 +4,9 @@ Missing-Math
 PHP's missing math functions - mean(), median(), variance(), covariance(), correlation(), stddev(), pv(), npv(), and more.
 
 
-###Functions
+##Functions
 
-
-#####`mean()`
+####`mean()`
 
 Signature: `String mean(array $values)`
 
@@ -18,7 +17,7 @@ Parameters:
 
 Returns: `String` Arithmetic average of the given values.
 
-#####`median()`
+####`median()`
 
 Signature: `String median(array $values)`
 
@@ -28,7 +27,7 @@ Parameters:
 Returns: `String` Median value of the given values, or null if it cannot be computed.
 
 
-#####`sumxy()`
+####`sumxy()`
 
 Signature: `String sumxy(array $x_values, array $y_values)`
 
@@ -39,7 +38,7 @@ Parameters:
 Returns: `String` Sum of the products of the values.
 
 
-#####`sos()`
+####`sos()`
 
 Signature: `String sos(array $values, $values2 = null)`
 
@@ -51,21 +50,21 @@ Returns: `String` Sum of squares.
 
 
 
-#####`variance()`
+####`variance()`
 
 
-#####`stddev()`
+####`stddev()`
 
 
-#####`covariance()`
+####`covariance()`
 
 
-#####`correlation()`
+####`correlation()`
 
 
-#####`pv()`
+####`pv()`
 
 
-#####`npv()`
+####`npv()`
 
 
