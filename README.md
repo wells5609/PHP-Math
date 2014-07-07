@@ -6,65 +6,85 @@ PHP's missing math functions - mean(), median(), variance(), covariance(), corre
 
 ##Functions
 
-####`mean()`
+####`String mean(array $values)`
 
-Signature: `String mean(array $values)`
+**Alias:** `avg()`
 
-Alias: `avg()`
-
-Parameters:
+**Parameters:**
  * `Array $values` - Array of numeric values.
 
-Returns: `String` Arithmetic average of the given values.
+**Returns:** `String` Arithmetic average of the given values.
 
-####`median()`
+####`String median(array $values)`
 
-Signature: `String median(array $values)`
-
-Parameters:
+**Parameters:**
  * `Array $values` - Array of numeric values
 
-Returns: `String` Median value of the given values, or null if it cannot be computed.
+**Returns:** `String` Median value of the given values, or null if it cannot be computed.
 
 
-####`sumxy()`
+####`String sumxy(array $x_values, array $y_values)`
 
-Signature: `String sumxy(array $x_values, array $y_values)`
-
-Parameters:
+**Parameters:**
  * `Array $x_values` - Array of numeric values of x.
  * `Array $y_values` - Array of numeric values of y.
 
-Returns: `String` Sum of the products of the values.
+**Returns:** `String` Sum of the products of the values.
 
 
-####`sos()`
+####`String sos(array $values, $values2 = null)`
 
-Signature: `String sos(array $values, $values2 = null)`
-
-Parameters:
+**Parameters:**
  * `Array $values` - Array of numeric values.
  * `Null|Array|String $values2` - Optional - If null, simply sums the square of each array value. If given a scalar value, sums the squares of the difference between each array value and that given by $values2 (good for explained/regression SS). If given an array, sums the squares of the difference between betweeen each array value and the value in $values2 with matching key (good for residual SS).
 
-Returns: `String` Sum of squares.
+**Returns:** `String` Sum of squares.
 
 
+####`String variance(array $values, $is_sample = false)`
 
-####`variance()`
+Variance
 
+####`String stddev(array $a, $is_sample = false)`
 
-####`stddev()`
+Standard deviation
 
+Alias: `stdev()`
 
-####`covariance()`
+####`String covariance(array $x_values, array $y_values)`
 
+Covariance
 
-####`correlation()`
+Alias: `covar()`
 
+####`String correlation(array $x_values, array $y_values)`
 
-####`pv()`
+Correlation
 
+Alias: `correl()`
 
-####`npv()`
+####`String pv($cashflow, $rate, $period = 0)`
+
+Present value
+
+####`String npv(array $cashflows, $rate)`
+
+Net present value
+
+####`String weighted_avg(array $values, array $weights)`
+
+Weighted average
+
+####`String pct($portion, $total)`
+
+Percent
+
+####`String pct_change($current, $previous)`
+
+Percent change
+
+####`Array pct_change_array($values)`
+
+Array values percent change 
 
 
