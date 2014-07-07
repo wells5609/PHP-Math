@@ -1,6 +1,27 @@
 <?php
 /**
  * General mathematical functions.
+ * 
+ * All functions return numeric values as strings.
+ * 
+ * @package wells5609/missing-math
+ * @license MIT
+ * 
+ * Function listing:
+ *  * mean() [Alias: avg()]
+ *  * median()
+ *  * sumxy()
+ *  * sos()
+ *  * variance()
+ *  * stddev() [Alias: stdev()]
+ *  * covariance() [Alias: covar()]
+ *  * correlation() [Alias: correl()]
+ *  * pv()
+ *  * npv()
+ *  * weighted_avg()
+ *  * pct()
+ *  * pct_change()
+ *  * pct_change_array()
  */
 
 /**
