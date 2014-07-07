@@ -80,7 +80,7 @@ PHP's missing math functions - mean(), median(), variance(), covariance(), corre
 
 **Returns:** `String` Percent change
 
-####`pct_change_array($values)`
+####`pct_change_array(array $values)`
 
 **Returns:** `Array` Array values percent change 
 
