@@ -1,9 +1,9 @@
 {
-	"name": "wells5609/missing-math",
+	"name": "wells5609/php-math",
 	"type": "library",
-	"description": "PHP missing math functions.",
+	"description": "The missing math functions for PHP.",
 	"keywords": ["Math", "Statistics", "Finance"],
-	"homepage": "https://github.com/wells5609/Missing-Math",
+	"homepage": "https://github.com/wells5609/PHP-Math",
 	"license": "MIT",
 	"authors": [
 		{

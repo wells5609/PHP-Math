@@ -4,7 +4,14 @@
  */
 
 bcscale('10');
- 
+
+/**
+ * Returns the sum of numeric values in an array.
+ * 
+ * @param array $array
+ * @param null &$count Set by reference to the number of numeric values.
+ * @return string Sum of numeric array values.
+ */
 function math_array_sum($array, &$count = null) {
 	$sum = '0';
 	$count = '0';
@@ -17,6 +24,12 @@ function math_array_sum($array, &$count = null) {
 	return $sum;
 }
 
+/**
+ * Returns the number of numeric values in an array.
+ * 
+ * @param array $array
+ * @return string Number of numeric values in the array.
+ */
 function math_count($array) {
 	$c = '0';
 	foreach($array as $value) {
@@ -152,12 +165,9 @@ function stddev(array $a, $is_sample = false) {
  * @return string Covariance of x and y.
  */
 function covariance(array $x_values, array $y_values) {
-	
 	$l = bcdiv(sumxy($x_values, $y_values), math_count($x_values));
 	$r = bcmul(mean($x_values), mean($y_values));
-	
 	return bcsub($l, $r);
-	
 	#return sumxy($x_values, $y_values)/math_count($x_values) - mean($x_values)*mean($y_values);
 }
 
@@ -169,11 +179,8 @@ function covariance(array $x_values, array $y_values) {
  * @return string Correlation
  */
 function correlation(array $x_values, array $y_values) {
-	
 	$sdxy = bcmul(stddev($x_values, true), stddev($y_values, true));
-	
 	return bcdiv(covariance($x_values, $y_values), $sdxy);
-	
 	#return covariance($x_values, $y_values) / (stddev($x_values, true)*stddev($y_values, true));
 }
 
@@ -191,9 +198,7 @@ function pv($cashflow, $rate, $period = 0) {
 	if ($period < 1) {
 		return (string) $cashflow;
 	}
-	
 	return bcdiv($cashflow, bcpow(bcadd($rate, '1'), $period));
-	
 	#return $cashflow / pow(1 + $rate, $period);
 }
 
@@ -205,9 +210,10 @@ function pv($cashflow, $rate, $period = 0) {
  * @return string NPV of $cashflows discounted at $rate.
  */
 function npv(array $cashflows, $rate) {
-	$npv = "0.0";
+	$npv = '0';
 	foreach ($cashflows as $index => $cashflow) {
-		$npv += pv($cashflow, $rate, $index);
+		$npv = bcadd($npv, pv($cashflow, $rate, $index));
+		#$npv += pv($cashflow, $rate, $index);
 	}
 	return (string) $npv;
 }
@@ -224,11 +230,12 @@ function weighted_avg(array $values, array $weights) {
 		trigger_error("Must pass the same number of weights and values.");
 		return null;
 	}
-	$weighted_sum = "0.0";
+	$weighted_sum = '0';
 	foreach ($values as $i => $val) {
-		$weighted_sum += $val * $weights[$i];
+		$weighted_sum = bcadd($weighted_sum, bcmul($val, $weights[$i]));
+		#$weighted_sum += $val * $weights[$i];
 	}
-	return strval($weighted_sum/array_sum($weights));
+	return bcdiv($weighted_sum, (string)array_sum($weights));
 }
 
 /** ========================================
@@ -246,7 +253,7 @@ function weighted_avg(array $values, array $weights) {
  * @return string %
  */
 function pct($portion, $total) {
-	return strval($portion/$total);
+	return bcdiv((string) $portion, (string) $total);
 }
 
 /**
@@ -257,7 +264,7 @@ function pct($portion, $total) {
  * @return string Percent change from previous to current.
  */
 function pct_change($current, $previous) {
-	return strval(($current - $previous) / $previous);
+	return bcdiv(bcsub((string) $current, (string) $previous), (string) $previous);
 }
 
 /**
@@ -276,7 +283,7 @@ function pct_change_array(array $values) {
 			if (0 == $prev) {
 				$pcts[$i] = '0';
 			} else {
-				$pcts[$i] = strval(($value-$prev)/$prev);
+				$pcts[$i] = bcdiv(bcsub((string)$value, (string)$prev), (string)$prev);
 			}
 		}
 	}
@@ -292,7 +299,8 @@ function pct_change_array(array $values) {
  * Arithmetic average.
  */
 function avg(array $values) {
-	return strval(array_sum($values)/count($values));
+	$sum = math_array_sum($values, $n);
+	return bcdiv($sum, $n);
 }
 
 /**
