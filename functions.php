@@ -1,28 +1,31 @@
 <?php
 /**
  * General mathematical functions.
- * 
- * All functions return numeric values as strings.
- * 
- * @package wells5609/missing-math
- * @license MIT
- * 
- * Function listing:
- *  * mean() [Alias: avg()]
- *  * median()
- *  * sumxy()
- *  * sos()
- *  * variance()
- *  * stddev() [Alias: stdev()]
- *  * covariance() [Alias: covar()]
- *  * correlation() [Alias: correl()]
- *  * pv()
- *  * npv()
- *  * weighted_avg()
- *  * pct()
- *  * pct_change()
- *  * pct_change_array()
  */
+
+bcscale('10');
+ 
+function math_array_sum($array, &$count = null) {
+	$sum = '0';
+	$count = '0';
+	foreach($array as $value) {
+		if (is_numeric($value)) {
+			$sum = bcadd($sum, (string) $value);
+			$count = bcadd($count, '1');
+		}
+	}
+	return $sum;
+}
+
+function math_count($array) {
+	$c = '0';
+	foreach($array as $value) {
+		if (is_numeric($value)) {
+			$c = bcadd($c, '1');
+		}
+	}
+	return $c;
+}
 
 /**
  * Calculate mean (simple arithmetic average).
@@ -31,7 +34,8 @@
  * @return string Mean
  */
 function mean(array $values) {
-	return strval(array_sum($values) / count($values));
+	$sum = math_array_sum($values, $n);
+	return bcdiv($sum, $n);
 }
 
 /**
@@ -52,7 +56,7 @@ function median(array $values) {
 	$m1 = ($n-1)/2;
 	$m2 = ($n+1)/2;
 	if (isset($values[$m1]) && isset($values[$m2])) {
-		return strval(($values[$m1]+$values[$m2])/2);
+		return bcdiv(bcadd($values[$m1], $values[$m2]), '2');
 	}
 	// best guess
 	$mrnd = (int) round($n/2, 0);
@@ -70,10 +74,11 @@ function median(array $values) {
  * @return string Sum of products.
  */
 function sumxy(array $x_values, array $y_values) {
-	$sum = "0.0";
+	$sum = '0';
 	foreach($x_values as $i => $x) {
 		if (isset($y_values[$i])) {
-			$sum += $x * $y_values[$i];
+			$sum = bcadd($sum, bcmul($x, $y_values[$i]));
+			#$sum += $x * $y_values[$i];
 		}
 	}
 	return (string) $sum;
@@ -94,12 +99,14 @@ function sos(array $values, $values2 = null) {
 	if (isset($values2) && ! is_array($values2)) {
 		$values2 = array_fill_keys(array_keys($values), $values2);
 	}
-	$sum = "0.0";
+	$sum = '0';
 	foreach ($values as $i => $val) {
 		if (! isset($values2)) {
-			$sum += pow($val, 2);
+			$sum = bcadd($sum, bcpow($val, '2'));
+			#$sum += pow($val, 2);
 		} else if (isset($values2[$i])) {
-			$sum += pow($val - $values2[$i], 2);
+			$sum = bcadd($sum, bcpow(bcsub($val, $values2[$i]), '2'));
+			#$sum += pow($val - $values2[$i], 2);
 		}
 	}
 	return (string) $sum;
@@ -114,7 +121,8 @@ function sos(array $values, $values2 = null) {
  */
 function variance(array $values, $is_sample = false) {
 	if ($is_sample) {
-		return strval(sos($values, mean($values))/(count($values)-1));
+		// = SOS(r) / (COUNT(s) - 1)
+		return bcdiv(sos($values, mean($values)), bcsub(math_count($values), '1'));
 	}
 	return covariance($values, $values);
 }
@@ -129,11 +137,11 @@ function variance(array $values, $is_sample = false) {
  * @return string|bool The standard deviation or false on error.
  */
 function stddev(array $a, $is_sample = false) {
-	if (count($a) < 2) {
+	if (math_count($a) < 2) {
 		trigger_error("The array has too few elements", E_USER_NOTICE);
 		return false;
 	}
-	return (string) sqrt(variance($a, $is_sample));
+	return bcsqrt(variance($a, $is_sample));
 }
 
 /**
@@ -144,7 +152,13 @@ function stddev(array $a, $is_sample = false) {
  * @return string Covariance of x and y.
  */
 function covariance(array $x_values, array $y_values) {
-	return strval(sumxy($x_values, $y_values)/count($x_values)-mean($x_values)*mean($y_values));
+	
+	$l = bcdiv(sumxy($x_values, $y_values), math_count($x_values));
+	$r = bcmul(mean($x_values), mean($y_values));
+	
+	return bcsub($l, $r);
+	
+	#return sumxy($x_values, $y_values)/math_count($x_values) - mean($x_values)*mean($y_values);
 }
 
 /**
@@ -155,7 +169,12 @@ function covariance(array $x_values, array $y_values) {
  * @return string Correlation
  */
 function correlation(array $x_values, array $y_values) {
-	return strval(covariance($x_values, $y_values)/(stddev($x_values, true)*stddev($y_values, true)));
+	
+	$sdxy = bcmul(stddev($x_values, true), stddev($y_values, true));
+	
+	return bcdiv(covariance($x_values, $y_values), $sdxy);
+	
+	#return covariance($x_values, $y_values) / (stddev($x_values, true)*stddev($y_values, true));
 }
 
 /**
@@ -169,7 +188,13 @@ function correlation(array $x_values, array $y_values) {
  * @return string Present value of the cash flow.
  */
 function pv($cashflow, $rate, $period = 0) {
-	return ($period < 1) ? (string) $cashflow : strval($cashflow / pow(1 + $rate, $period));
+	if ($period < 1) {
+		return (string) $cashflow;
+	}
+	
+	return bcdiv($cashflow, bcpow(bcadd($rate, '1'), $period));
+	
+	#return $cashflow / pow(1 + $rate, $period);
 }
 
 /**
@@ -248,7 +273,11 @@ function pct_change_array(array $values) {
 	foreach ($vals as $i => $value) {
 		if (0 !== $i) {
 			$prev = $vals[$i-1];
-			$pcts[$i] = strval(($value-$prev)/$prev);
+			if (0 == $prev) {
+				$pcts[$i] = '0';
+			} else {
+				$pcts[$i] = strval(($value-$prev)/$prev);
+			}
 		}
 	}
 	array_shift($keys);
