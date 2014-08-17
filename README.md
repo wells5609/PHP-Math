@@ -1,12 +1,13 @@
 PHP-Math
 ============
 
-PHP's missing math functions - mean(), median(), variance(), covariance(), correlation(), stddev(), pv(), npv(), and more.
+PHP math functions: mean(), median(), variance(), covariance(), correlation(), stddev(), pv(), npv(), and more.
 
 
-##Functions
+#Functions
 
-###`mean(array $values)`
+
+##`mean(array $values)`
 
 **Parameters:**
  * `Array $values` - Array of numeric values.
@@ -15,14 +16,16 @@ PHP's missing math functions - mean(), median(), variance(), covariance(), corre
 
 **Alias:** `avg()`
 
-###`median(array $values)`
+
+##`median(array $values)`
 
 **Parameters:**
  * `Array $values` - Array of numeric values
 
 **Returns:** `String` Median value of the given values, or null if it cannot be computed.
 
-###`sumxy(array $x_values, array $y_values)`
+
+##`sumxy(array $x_values, array $y_values)`
 
 **Parameters:**
  * `Array $x_values` - Array of numeric values of x.
@@ -30,7 +33,8 @@ PHP's missing math functions - mean(), median(), variance(), covariance(), corre
 
 **Returns:** `String` Sum of the products of the values.
 
-###`sos(array $values, $values2 = null)`
+
+##`sos(array $values, $values2 = null)`
 
 **Parameters:**
  * `Array $values` - Array of numeric values.
@@ -38,50 +42,59 @@ PHP's missing math functions - mean(), median(), variance(), covariance(), corre
 
 **Returns:** `String` Sum of squares.
 
-###`variance(array $values, $is_sample = false)`
+
+##`variance(array $values, $is_sample = false)`
 
 **Returns:** `String` Variance
 
-###`stddev(array $a, $is_sample = false)`
+
+##`stddev(array $a, $is_sample = false)`
 
 **Returns:** `String` Standard deviation
 
 **Alias:** `stdev()`
 
-###`covariance(array $x_values, array $y_values)`
+
+##`covariance(array $x_values, array $y_values)`
 
 **Returns:** `String` Covariance
 
 **Alias:** `covar()`
 
-###`correlation(array $x_values, array $y_values)`
+
+##`correlation(array $x_values, array $y_values)`
 
 **Returns:** `String` Correlation
 
 **Alias:** `correl()`
 
-###`pv($cashflow, $rate, $period = 0)`
+
+##`pv($cashflow, $rate, $period = 0)`
 
 **Returns:** `String` Present value
 
-###`npv(array $cashflows, $rate)`
+
+##`npv(array $cashflows, $rate)`
 
 **Returns:** `String` Net present value
 
-###`weighted_avg(array $values, array $weights)`
+
+##`weighted_avg(array $values, array $weights)`
 
 **Returns:** `String` Weighted average
 
-###`pct($portion, $total)`
+
+##`pct($portion, $total)`
 
 **Returns:** `String` Percent
 
-###`pct_change($current, $previous)`
+
+##`pct_change($current, $previous)`
 
 **Returns:** `String` Percent change
 
-###`pct_change_array(array $values)`
+
+##`pct_change_array(array $values)`
 
 **Returns:** `Array` Array values percent change 
-
 
