@@ -1,8 +1,8 @@
 {
 	"name": "wells5609/php-math",
 	"type": "library",
-	"description": "The missing math functions for PHP.",
-	"keywords": ["Math", "Statistics", "Finance"],
+	"description": "Math functions for PHP.",
+	"keywords": ["Math", "Arithmetic", "Statistics", "Finance"],
 	"homepage": "https://github.com/wells5609/PHP-Math",
 	"license": "MIT",
 	"authors": [
@@ -12,7 +12,8 @@
 		}
 	],
 	"require": {
-		"php": ">=5.2"
+		"php": ">=5.3",
+		"ext-bcmath": "*"
 	},
 	"autoload": {
 		"files": ["functions.php"]
